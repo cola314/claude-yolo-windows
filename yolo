@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Check if claude command exists
+if ! command -v claude &> /dev/null; then
+    echo "[Error]: Could not find claude CLI - is it installed?" >&2
+    exit 1
+fi
+
+# Pass all arguments to claude with --dangerously-skip-permissions flag
+claude --dangerously-skip-permissions "$@"
