@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Name="claude-yolo-windows"
-           Version="1.0.0.0"
+           Version="1.1.0.0"
            Manufacturer="claude-yolo-windows"
            UpgradeCode="D2C3B4A5-F6E7-8901-ABCD-EF1234567890">
 
@@ -36,6 +36,9 @@
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="YoloCmd" Guid="E5F6A7B8-C9D0-1234-5678-90ABCDEF1234">
         <File Id="YoloCmdFile" Source="yolo.cmd" />
+      </Component>
+      <Component Id="YoloSh" Guid="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+        <File Id="YoloShFile" Source="yolo" />
       </Component>
     </ComponentGroup>
 
