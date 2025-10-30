@@ -1,0 +1,31 @@
+name: Build MSI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install WiX
+      run: |
+        dotnet tool install --global wix --version 5.0.1
+
+    - name: Build MSI
+      run: |
+        wix build yolo.wxs -o claude-yolo-windows.msi
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: claude-yolo-windows.msi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

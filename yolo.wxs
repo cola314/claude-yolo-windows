@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="claude-yolo-windows"
+           Version="1.0.0.0"
+           Manufacturer="claude-yolo-windows"
+           UpgradeCode="D2C3B4A5-F6E7-8901-ABCD-EF1234567890">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Show completion dialogs -->
+    <CustomAction Id="InstallComplete"
+                  Directory="INSTALLFOLDER"
+                  ExeCommand="powershell.exe -Command &quot;[Windows.UI.Popups.MessageDialog]::new('Installation completed successfully!').ShowAsync() | Out-Null&quot;"
+                  Return="ignore" />
+
+    <CustomAction Id="UninstallComplete"
+                  Directory="INSTALLFOLDER"
+                  ExeCommand="powershell.exe -Command &quot;[Windows.UI.Popups.MessageDialog]::new('Uninstallation completed successfully!').ShowAsync() | Out-Null&quot;"
+                  Return="ignore" />
+
+    <InstallExecuteSequence>
+      <Custom Action="InstallComplete" After="InstallFinalize" Condition="NOT Installed" />
+      <Custom Action="UninstallComplete" After="InstallFinalize" Condition="Installed AND NOT UPGRADINGPRODUCTCODE" />
+    </InstallExecuteSequence>
+
+    <Feature Id="ProductFeature" Title="claude-yolo-windows" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="EnvironmentPath" />
+    </Feature>
+
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="claude-yolo-windows" />
+    </StandardDirectory>
+
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="YoloCmd" Guid="E5F6A7B8-C9D0-1234-5678-90ABCDEF1234">
+        <File Id="YoloCmdFile" Source="yolo.cmd" />
+      </Component>
+    </ComponentGroup>
+
+    <Component Id="EnvironmentPath" Directory="INSTALLFOLDER" Guid="F6A7B8C9-D0E1-2345-6789-0ABCDEF12345">
+      <Environment Id="PATH"
+                   Name="PATH"
+                   Value="[INSTALLFOLDER]"
+                   Permanent="no"
+                   Part="last"
+                   Action="set"
+                   System="yes" />
+    </Component>
+
+
+  </Package>
+</Wix>
